@@ -60,11 +60,46 @@ class ConvexClient {
   ///
   /// Example:
   /// ```dart
-  /// await convex.mutate('users/updateCard', {
-  ///   'twitterId': '123',
-  ///   'badge': 'Streamer',
+  /// await convex.mutation('users.createUser', {
+  ///   'username': 'alice',
+  ///   'email': 'alice@example.com',
   /// });
   /// ```
+  /// Note: Dot notation will be converted to colon notation for Convex HTTP API
+  Future<T> mutation<T>(String functionName, [Map<String, dynamic>? args]) async {
+    try {
+      // Convert dot notation to colon notation for Convex HTTP API
+      // e.g., "users.createUser" -> "users:createUser"
+      final convexPath = functionName.replaceAll('.', ':');
+
+      final response = await _dio.post(
+        '/api/mutation',
+        data: {
+          'path': convexPath,
+          'args': args ?? {},
+        },
+      );
+
+      // Convex HTTP API wraps responses in {"status": "success", "value": ...}
+      final data = response.data as Map<String, dynamic>;
+      if (data['status'] == 'success') {
+        return data['value'] as T;
+      } else {
+        throw ConvexException(
+          'Mutation returned error status: ${data['status']}\nError data: ${data['error']}',
+        );
+      }
+    } on DioException catch (e) {
+      throw ConvexException(
+        'Mutation failed: $functionName',
+        originalError: e,
+      );
+    }
+  }
+
+  /// Legacy mutate method for backwards compatibility
+  /// Prefer using mutation() for new code
+  @Deprecated('Use mutation() instead')
   Future<T> mutate<T>(String path, Map<String, dynamic> args) async {
     try {
       final response = await _dio.post(

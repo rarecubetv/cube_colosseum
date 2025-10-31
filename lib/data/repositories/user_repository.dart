@@ -122,4 +122,55 @@ class UserRepository {
       return null;
     }
   }
+
+  /// Authenticate with Solana wallet
+  /// Creates new user or returns existing user based on wallet address
+  Future<Map<String, dynamic>> authenticateWithSolana({
+    required String walletAddress,
+    String? walletChain,
+    String? username,
+    String? name,
+    String? avatar,
+  }) async {
+    try {
+      final response = await _convex.mutation<dynamic>(
+        'users:authenticateWithSolana',
+        {
+          'walletAddress': walletAddress,
+          if (walletChain != null) 'walletChain': walletChain,
+          if (username != null) 'username': username,
+          if (name != null) 'name': name,
+          if (avatar != null) 'avatar': avatar,
+        },
+      );
+
+      return response as Map<String, dynamic>;
+    } catch (e) {
+      print('Error authenticating with Solana: $e');
+      rethrow;
+    }
+  }
+
+  /// Link Solana wallet to existing user
+  Future<bool> linkSolanaToUser({
+    required String userId,
+    required String walletAddress,
+    String? walletChain,
+  }) async {
+    try {
+      final response = await _convex.mutation<dynamic>(
+        'users:linkSolanaToUser',
+        {
+          'userId': userId,
+          'walletAddress': walletAddress,
+          if (walletChain != null) 'walletChain': walletChain,
+        },
+      );
+
+      return response['success'] == true;
+    } catch (e) {
+      print('Error linking Solana wallet: $e');
+      return false;
+    }
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../providers/solana_provider.dart';
+import '../../providers/user_provider.dart';
 
 /// A button widget for connecting to Solana wallets
 class SolanaWalletButton extends ConsumerWidget {
@@ -33,6 +35,35 @@ class SolanaWalletButton extends ConsumerWidget {
           if (result != null) {
             ref.read(solanaAuthStateProvider.notifier).setAuthorized(true);
             ref.read(solanaPublicKeyProvider.notifier).setPublicKey(walletService.publicKey);
+
+            // Authenticate with Convex backend
+            try {
+              final userRepo = ref.read(userRepositoryProvider);
+              final authResult = await userRepo.authenticateWithSolana(
+                walletAddress: walletService.publicKey!,
+                walletChain: 'solana',
+              );
+
+              print('✅ Solana auth successful: ${authResult['isNewUser'] ? 'New user created' : 'Existing user'}');
+              print('   User ID: ${authResult['userId']}');
+              print('   Username: ${authResult['user']['username']}');
+
+              // Navigate to home screen
+              if (context.mounted) {
+                context.go('/home');
+              }
+            } catch (e) {
+              print('❌ Solana authentication failed: $e');
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Authentication failed: $e'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            }
+
             onConnected?.call();
           }
         }
