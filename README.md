@@ -8,7 +8,7 @@
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.8.1-02569B?logo=flutter)](https://flutter.dev)
 [![Solana](https://img.shields.io/badge/Solana-Devnet-9945FF?logo=solana)](https://solana.com)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Proprietary-red.svg)](COPYRIGHT)
 
 ---
 
@@ -407,7 +407,9 @@ flutter build web --release
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details
+Copyright (c) 2025 RareCube. All Rights Reserved.
+
+This is proprietary software. See [COPYRIGHT](COPYRIGHT) file for details.
 
 ---
 
