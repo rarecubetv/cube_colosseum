@@ -8,7 +8,7 @@
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.8.1-02569B?logo=flutter)](https://flutter.dev)
 [![Solana](https://img.shields.io/badge/Solana-Devnet-9945FF?logo=solana)](https://solana.com)
-[![License](https://img.shields.io/badge/License-Proprietary-red.svg)](COPYRIGHT)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 ---
 
@@ -407,9 +407,11 @@ flutter build web --release
 
 ## License
 
-Copyright (c) 2025 RareCube. All Rights Reserved.
+Copyright (c) 2025 RareCube
 
-This is proprietary software. See [COPYRIGHT](COPYRIGHT) file for details.
+Licensed under the Apache License, Version 2.0 - see [LICENSE](LICENSE) file for details.
+
+**Key terms**: Free to use, modify, and distribute with attribution. Patent rights granted. Commercial use allowed.
 
 ---
 
