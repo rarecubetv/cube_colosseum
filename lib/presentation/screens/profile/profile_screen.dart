@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/solana_provider.dart';
 import '../../../core/theme/app_colors.dart';
@@ -148,12 +149,17 @@ class ProfileScreen extends ConsumerWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             // Disconnect wallet and clear auth
-                            ref.read(solanaWalletServiceProvider).deauthorize();
+                            await ref.read(solanaWalletServiceProvider).deauthorize();
                             ref.read(solanaAuthStateProvider.notifier).setAuthorized(false);
                             ref.read(solanaPublicKeyProvider.notifier).setPublicKey(null);
                             ref.read(authProvider.notifier).logout();
+
+                            // Navigate back to auth screen
+                            if (context.mounted) {
+                              context.go('/');
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red.withOpacity(0.1),
