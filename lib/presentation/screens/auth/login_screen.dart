@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../widgets/cube/cube_avatar.dart';
 import '../../providers/user_provider.dart';
-import '../../widgets/solana/solana_wallet_button.dart';
+// import '../../widgets/solana/solana_wallet_button.dart'; // Temporarily disabled for Android
 
 /// Login screen matching pages/index.js
 /// Shows "RARECUBE : PHASE ONE LIVE" title, login buttons, and user carousel
@@ -98,21 +98,19 @@ class LoginScreen extends ConsumerWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 12),
-
-                  // Solana Wallet Connect Button
-                  SolanaWalletButton(
-                    onConnected: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Solana wallet connected!'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    },
-                  ),
-
                   const SizedBox(height: 48),
+
+                  // Solana Wallet Connect Button - Temporarily disabled for Android
+                  // SolanaWalletButton(
+                  //   onConnected: () {
+                  //     ScaffoldMessenger.of(context).showSnackBar(
+                  //       const SnackBar(
+                  //         content: Text('Solana wallet connected!'),
+                  //         duration: Duration(seconds: 2),
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
 
                   // User Carousel
                   allUsers.when(
