@@ -24,15 +24,15 @@ class SolanaWalletButton extends ConsumerWidget {
         if (isAuthorized) {
           // Disconnect
           await walletService.deauthorize();
-          ref.read(solanaAuthStateProvider.notifier).state = false;
-          ref.read(solanaPublicKeyProvider.notifier).state = null;
+          ref.read(solanaAuthStateProvider.notifier).setAuthorized(false);
+          ref.read(solanaPublicKeyProvider.notifier).setPublicKey(null);
           onDisconnected?.call();
         } else {
           // Connect
           final result = await walletService.authorize();
           if (result != null) {
-            ref.read(solanaAuthStateProvider.notifier).state = true;
-            ref.read(solanaPublicKeyProvider.notifier).state = walletService.publicKey;
+            ref.read(solanaAuthStateProvider.notifier).setAuthorized(true);
+            ref.read(solanaPublicKeyProvider.notifier).setPublicKey(walletService.publicKey);
             onConnected?.call();
           }
         }

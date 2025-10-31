@@ -10,6 +10,7 @@
 #include <flutter_webrtc/flutter_web_r_t_c_plugin.h>
 #include <permission_handler_windows/permission_handler_windows_plugin.h>
 #include <url_launcher_windows/url_launcher_windows.h>
+#include <webcrypto/webcrypto_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
   FileSelectorWindowsRegisterWithRegistrar(
@@ -20,4 +21,6 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("PermissionHandlerWindowsPlugin"));
   UrlLauncherWindowsRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("UrlLauncherWindows"));
+  WebcryptoPluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("WebcryptoPlugin"));
 }

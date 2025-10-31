@@ -32,9 +32,11 @@ class _MainScaffoldState extends State<MainScaffold> {
   @override
   Widget build(BuildContext context) {
     // Wrap with Provider for streaming functionality
+    print('🔵 MainScaffold building - currentIndex: $_currentIndex');
     return ChangeNotifierProvider(
       create: (_) => StreamerProvider(),
       child: Scaffold(
+        backgroundColor: AppColors.background,
         body: IndexedStack(
           index: _currentIndex,
           children: const [
