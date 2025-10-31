@@ -1,155 +1,202 @@
-# RareCube - Solana Mobile Flutter App
+# RARE□TV Mobile - Solana Native Streaming Platform
 
 ![App Preview](app.jpeg)
 
-<div align="center">
+**A native mobile companion to RARE□TV, the decentralized live streaming platform built for Solana Colosseum Hackathon**
 
-**A next-generation social streaming platform built for Solana Mobile**
-
-[Website](https://rarecube.tv) • [Twitter](https://twitter.com/rarecube) • [Demo Video](#)
+[Website](https://rarecube.tv) • [GitHub](https://github.com/rarecubetv/cube_colosseum) • [Twitter](https://x.com/rarecubetv)
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.8.1-02569B?logo=flutter)](https://flutter.dev)
 [![Solana](https://img.shields.io/badge/Solana-Devnet-9945FF?logo=solana)](https://solana.com)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-</div>
+---
+
+## Overview
+
+RARE□TV Mobile brings the decentralized streaming experience to native iOS and Android devices with Solana Mobile Wallet Adapter integration. This Flutter application extends the RARE□TV web platform (built with Astro, React, and Convex) to mobile-first audiences, particularly targeting Solana Seeker and mobile Web3 users.
+
+### Platform Context
+
+RARE□TV is a multi-chain streaming platform featuring:
+- Real-time live streaming
+- Multi-chain wallet authentication (Solana, Ethereum, Base, Polygon)
+- X/Twitter OAuth integration for social verification
+- Live chat and viewer tracking via Convex real-time database
+- Progressive Web App capabilities
+
+This mobile application focuses exclusively on Solana integration, providing a streamlined native experience optimized for mobile hardware and the Solana ecosystem. The desktop application is cross-chain Solana + EVM.
 
 ---
 
-## 🚀 Solana Colosseum Hackathon Submission
+## Key Features
 
-RareCube is a **native mobile Flutter application** that brings Web3 social streaming to Solana Mobile devices. This app seamlessly integrates Solana wallet connectivity, allowing creators and collectors to interact with NFTs, tokens, and digital content on-chain.
+### Solana Mobile Wallet Adapter Integration
 
-### 🏆 Why RareCube?
+**Production-Ready Wallet Connectivity**
+- One-tap wallet connection using Solana's official Mobile Wallet Adapter specification
+- Support for Phantom, Solflare, Backpack, and other mobile Solana wallets
+- Transaction signing and message authentication
+- Persistent wallet state management with Riverpod
+- Devnet and mainnet configuration support
 
-- **Mobile-First Design**: Built specifically for Solana Seeker and mobile Web3 experiences
-- **Native Solana Integration**: Deep integration with Solana Mobile Wallet Adapter for seamless transactions
-- **Creator Economy**: Empowers content creators with token-gated content and NFT showcasing
-- **Real-time Social Features**: Live streams, wall posts, and community engagement
-- **Cross-Platform**: Runs on iOS, Android, Web, and Desktop (macOS, Windows, Linux)
+**Implementation Architecture**
+```dart
+// Core wallet service with complete lifecycle management
+SolanaWalletService
+  - authorize()           // Connect to mobile wallet
+  - deauthorize()         // Disconnect and cleanup
+  - signTransaction()     // Single transaction signing
+  - signTransactions()    // Batch transaction support
+  - signMessage()         // Message signing for authentication
+```
 
----
+### Native Mobile Experience
 
-## ✨ Key Features
+**Optimized UI Components**
+- 3D animated cube avatars rendered at 60 FPS using Flutter's rendering engine
+- Multiple avatar size variants (80x80, 48x48, 32x32) for different contexts
+- Dark theme with WCAG-compliant contrast ratios optimized for OLED displays
+- Responsive grid layouts adapting from 2-4 columns based on screen size
+- Bottom navigation with badge support and smooth transitions
 
-### 🔐 Solana Wallet Integration
-- **One-Tap Connect**: Seamless wallet connection using Solana Mobile Wallet Adapter
-- **Transaction Signing**: Sign transactions and messages directly from mobile
-- **Multi-Wallet Support**: Compatible with Phantom, Solflare, and other Solana wallets
-- **Devnet Testing**: Full devnet support for development and testing
-
-### 🎨 Unique 3D Cube Avatars
-- Animated 3D rotating cubes with 6 customizable faces
-- Smooth animations powered by Flutter's rendering engine
-- Multiple size variants for different contexts
-
-### 📱 Social Streaming Platform
-- **Live Streams**: Share real-time content with your community
-- **Wall Posts**: Quick updates with media attachments
-- **User Profiles**: Customizable profiles with badge system
-- **Following System**: Build your network and discover creators
-
-### 🎯 Web3 Features
-- Token attachments on posts
-- Social link integration
-- NFT showcase capabilities
-- On-chain interactions
+**Platform Support**
+- iOS (iPhone, iPad) with native wallet deep linking
+- Android with Material Design compliance
+- Web deployment via Flutter Web
+- Desktop support (macOS, Windows, Linux) for development
 
 ---
 
-## ✅ Implementation Status
+## Technical Architecture
 
-### Core Infrastructure
-- ✅ Flutter multi-platform setup (iOS, Android, Web, macOS, Windows, Linux)
-- ✅ **Solana Mobile Wallet Adapter integration**
-- ✅ **SolanaWalletService** for wallet management
-- ✅ Dark theme with WCAG accessibility compliance
-- ✅ Riverpod state management
+### Frontend Stack
 
-### Solana Integration
-- ✅ **SolanaWalletService** - Core wallet management
-  - Connect/disconnect wallet functionality
-  - Transaction signing capabilities
-  - Message signing for authentication
-- ✅ **SolanaWalletButton** - Reusable wallet UI component
-- ✅ **Solana Providers** - Riverpod state management for wallet state
-- ✅ Integration with Solana Mobile Wallet Adapter (v0.1.5)
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| Framework | Flutter 3.8.1 | Cross-platform native UI |
+| State Management | Riverpod 3.0.2 | Reactive state and dependency injection |
+| Navigation | go_router 16.2.4 | Type-safe routing with deep links |
+| Blockchain | solana_wallet_adapter 0.1.5 | Solana Mobile Wallet Adapter |
+| HTTP Client | Dio 5.9.0 | API communication |
+| Image Loading | cached_network_image 3.4.1 | Optimized image caching |
 
-### Data Layer
-- ✅ User and StreamCard models with Convex backend integration
-- ✅ UserRepository for all user operations
-- ✅ ConvexClient for API communication
-- ✅ Token attachment and social link support
+### Backend Integration
 
-### UI Components & Screens
-- ✅ **3D CubeAvatar** - Animated rotating cube avatars (3 size variants)
-- ✅ **LoginScreen** - Twitter OAuth + **Solana Wallet Connect**
-- ✅ **HomeScreen** - Responsive user grid (2-4 columns)
-- ✅ **StreamFeedScreen** - Dual-tab feed (Streams | Wall)
-- ✅ **ProfileScreen** - User profiles with follow system
-- ✅ **BottomNav** - 5-tab navigation with badge support
+**Convex Real-Time Database**
+- Primary backend: `https://preset-fox-185.convex.cloud`
+- API proxy via Next.js routes at `rarecube.tv`
+- Real-time subscriptions for live data (HTTP polling, WebSocket-ready)
+- File storage for user avatars and media content
 
-### Navigation & Routing
-- ✅ go_router with deep linking support
-- ✅ Multi-screen navigation flow
-- ✅ OAuth callback handling ready
+**Data Models**
+- User profiles with Twitter verification and wallet linking
+- Stream cards with media attachments and token metadata
+- Social links and engagement tracking (followers, subscriptions)
+- Comments with nested replies and voting system
+
+### Solana Integration Details
+
+**Service Layer**
+```dart
+// lib/core/solana/solana_wallet_service.dart
+class SolanaWalletService {
+  final SolanaWalletAdapter _adapter;
+  Account? _currentAccount;
+  bool _isAuthorized = false;
+
+  String? get publicKey => _currentAccount?.address;
+  bool get isAuthorized => _isAuthorized;
+}
+```
+
+**State Management**
+```dart
+// lib/presentation/providers/solana_provider.dart
+final solanaWalletServiceProvider;  // Singleton wallet service
+final solanaAuthStateProvider;      // Connection state boolean
+final solanaPublicKeyProvider;      // Current wallet address string
+```
+
+**UI Components**
+- `SolanaWalletButton`: Reusable connect/disconnect button with address display
+- Auto-formatting of wallet addresses (displays first 4 and last 4 characters)
+- Connection status feedback with loading states
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-rarecube_flutter/
-├── lib/
-│   ├── core/
-│   │   ├── config/env_config.dart              # Environment configuration
-│   │   ├── theme/                              # App theming
-│   │   ├── solana/
-│   │   │   └── solana_wallet_service.dart      # 🔐 Solana wallet service
-│   │   └── utils/
-│   │
-│   ├── data/
-│   │   ├── models/                             # Data models
-│   │   ├── datasources/                        # API clients
-│   │   └── repositories/                       # Data repositories
-│   │
-│   ├── presentation/
-│   │   ├── providers/
-│   │   │   ├── solana_provider.dart            # 🔐 Solana state management
-│   │   │   └── user_provider.dart              # User state
-│   │   ├── screens/
-│   │   │   ├── auth/login_screen.dart          # Login + Wallet Connect
-│   │   │   ├── home/home_screen.dart           # User feed
-│   │   │   ├── stream/                         # Stream screens
-│   │   │   └── profile/                        # Profile screens
-│   │   └── widgets/
-│   │       ├── solana/
-│   │       │   └── solana_wallet_button.dart   # 🔐 Wallet connect button
-│   │       ├── cube/cube_avatar.dart           # 3D animated avatars
-│   │       └── common/                         # Shared widgets
-│   │
-│   └── routes/app_router.dart                  # Navigation
+lib/
+├── core/
+│   ├── config/
+│   │   └── env_config.dart              # Environment variables
+│   ├── theme/
+│   │   ├── app_colors.dart              # Color system (#22C55E primary)
+│   │   └── app_theme.dart               # Dark theme definition
+│   ├── solana/
+│   │   └── solana_wallet_service.dart   # Wallet lifecycle management
+│   └── utils/
+│       └── contrast_calculator.dart     # WCAG accessibility utilities
 │
-└── pubspec.yaml                                # Dependencies + Solana SDK
+├── data/
+│   ├── models/
+│   │   ├── user.dart                    # User entity with Convex schema
+│   │   └── stream_card.dart             # Stream content model
+│   ├── datasources/
+│   │   └── convex_client.dart           # HTTP client for Convex API
+│   └── repositories/
+│       └── user_repository.dart         # User CRUD operations
+│
+├── presentation/
+│   ├── providers/
+│   │   ├── convex_provider.dart         # Global Convex client
+│   │   ├── user_provider.dart           # User data providers
+│   │   └── solana_provider.dart         # Wallet state providers
+│   ├── screens/
+│   │   ├── auth/
+│   │   │   └── login_screen.dart        # Login + wallet connect
+│   │   ├── home/
+│   │   │   └── home_screen.dart         # User discovery grid
+│   │   ├── stream/
+│   │   │   ├── stream_feed_screen.dart  # Dual-tab feed (Streams/Wall)
+│   │   │   ├── stream_create_screen.dart
+│   │   │   └── stream_detail_screen.dart
+│   │   └── profile/
+│   │       └── user_profile_screen.dart
+│   └── widgets/
+│       ├── solana/
+│       │   └── solana_wallet_button.dart # Wallet UI component
+│       ├── cube/
+│       │   └── cube_avatar.dart         # 3D rotating avatars
+│       ├── media/                       # Video/image players
+│       └── common/
+│           └── bottom_nav.dart          # Tab navigation
+│
+└── routes/
+    └── app_router.dart                  # Navigation configuration
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-- Flutter SDK 3.8.1+
-- Dart SDK 3.8.1+
-- Xcode (for iOS/macOS development)
-- Android Studio (for Android development)
-- A Solana wallet (Phantom, Solflare, etc.) for testing
+
+- Flutter SDK 3.8.1 or higher
+- Dart SDK 3.8.1 or higher
+- Xcode 14+ (for iOS development)
+- Android Studio with NDK (for Android development)
+- Solana wallet app (Phantom, Solflare) for testing
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/rarecube_flutter.git
-   cd rarecube_flutter
+   git clone https://github.com/rarecubetv/cube_colosseum.git
+   cd cube_colosseum
+   git checkout flutter
    ```
 
 2. **Install dependencies**
@@ -158,221 +205,240 @@ rarecube_flutter/
    ```
 
 3. **Configure environment** (optional)
-   Edit `lib/core/config/env_config.dart` to set your backend URLs:
+
+   Edit `lib/core/config/env_config.dart`:
    ```dart
    static const String convexUrl = 'https://preset-fox-185.convex.cloud';
    static const String backendUrl = 'https://join.rarecube.tv';
    ```
 
-4. **Run the app**
+4. **Run on device**
    ```bash
+   # List available devices
+   flutter devices
+
    # iOS Simulator
    flutter run -d iphone
 
    # Android Emulator
-   flutter run -d android
+   flutter run -d emulator-5554
 
-   # macOS Desktop
-   flutter run -d macos
-
-   # Web Browser
-   flutter run -d chrome
+   # Physical device (ensure USB debugging enabled)
+   flutter run
    ```
 
 ### Testing Solana Integration
 
-1. Install a Solana wallet on your device (Phantom, Solflare)
-2. Switch to Devnet in wallet settings
-3. Launch RareCube app
-4. Tap "Connect Wallet" on the login screen
-5. Approve connection in your wallet
-6. Your wallet address will display in the app!
+1. Install Phantom or Solflare wallet on your test device
+2. Switch wallet network to Devnet in settings
+3. Launch RARE□TV mobile app
+4. Tap "Connect Wallet" button on login screen
+5. Approve connection request in wallet app
+6. Wallet address displays in app (format: `Abc1...xyz9`)
 
 ---
 
-## 🎯 Demo Flow
+## Development Workflow
 
-### Complete User Journey
+### Hot Reload
 
-1. **Launch & Connect**
-   - App opens to login screen with "RARECUBE : PHASE ONE LIVE"
-   - **Tap "Connect Wallet"** → Approve Solana wallet connection
-   - See connected wallet address displayed
-   - View user carousel showing community members
+Flutter's hot reload enables instant feedback during development:
+- Save any Dart file to trigger automatic reload
+- Press `r` in terminal for manual reload
+- Press `R` for full app restart (resets state)
 
-2. **Explore Community**
-   - Tap "Log in with 𝕏" to enter the app
-   - Browse responsive grid of verified users
-   - Each card displays animated 3D cube avatar, username, and badge
-   - Smooth animations and transitions
+### Code Quality
 
-3. **Navigate Features**
-   - Use bottom navigation to explore different sections
-   - **Home Tab**: Discover creators and collectors
-   - **Stream Tab**: View live streams and wall posts
-   - Toggle between "Streams" and "Wall" views
+```bash
+# Static analysis
+flutter analyze
 
-4. **Solana Features** (Ready for Integration)
-   - Wallet connection persists across sessions
-   - Sign transactions for on-chain interactions
-   - Authenticate with message signing
+# Run tests
+flutter test
 
----
-
-## 🛠️ Technical Architecture
-
-### Solana Integration Details
-
-The app uses the official **Solana Mobile Wallet Adapter** for secure wallet interactions:
-
-```dart
-// Core Service (lib/core/solana/solana_wallet_service.dart)
-class SolanaWalletService {
-  - authorize()          // Connect wallet
-  - deauthorize()        // Disconnect wallet
-  - signTransaction()    // Sign single transaction
-  - signTransactions()   // Sign multiple transactions
-  - signMessage()        // Sign authentication messages
-}
-
-// State Management (lib/presentation/providers/solana_provider.dart)
-solanaWalletServiceProvider  // Wallet service instance
-solanaAuthStateProvider      // Connection state
-solanaPublicKeyProvider      // Current wallet address
+# Format code
+flutter format .
 ```
 
-### Key Dependencies
+### Building for Production
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `solana_wallet_adapter` | ^0.1.5 | Solana Mobile Wallet Adapter |
-| `flutter_riverpod` | ^3.0.2 | State management |
-| `go_router` | ^16.2.4 | Navigation & deep linking |
-| `cached_network_image` | ^3.4.1 | Optimized image loading |
-| `dio` | ^5.9.0 | HTTP client for API calls |
-
-### Backend Integration
-
-- **Primary Backend**: Convex (https://preset-fox-185.convex.cloud)
-- **API Proxy**: Next.js API routes at rarecube.tv
-- **Real-time Data**: HTTP polling (WebSocket ready)
-- **Storage**: Convex file storage for media
-
----
-
-## 🎨 Design Philosophy
-
-### Mobile-First UX
-- **Dark Theme**: Optimized for OLED displays and reduced eye strain
-- **Smooth Animations**: 60 FPS 3D cube rotations and transitions
-- **Responsive Layout**: Adapts from phone to tablet to desktop
-- **Accessibility**: WCAG-compliant contrast ratios
-
-### Brand Colors
-- **Primary Green**: `#22C55E` - Represents growth and community
-- **Deep Black**: `#000000` - Sleek, premium mobile experience
-- **Subtle Grays**: For depth and hierarchy
-
----
-
-## 🔮 Roadmap
-
-### Phase 1 ✅ (Current - Hackathon MVP)
-- ✅ Solana wallet integration
-- ✅ Core UI components
-- ✅ Multi-platform support
-- ✅ Backend connectivity
-
-### Phase 2 🚧 (Post-Hackathon)
-- [ ] NFT minting for creator cards
-- [ ] Token-gated content access
-- [ ] SPL token integration for tips/payments
-- [ ] On-chain social graph
-
-### Phase 3 🔮 (Future)
-- [ ] Live streaming with Solana micropayments
-- [ ] Creator DAOs
-- [ ] Cross-chain bridges
-- [ ] Mobile AR features for Solana Saga
-
----
-
-## 👥 Team & Contact
-
-- **Website**: [rarecube.tv](https://rarecube.tv)
-- **GitHub**: [rarecube_flutter](https://github.com/yourusername/rarecube_flutter)
-- **Twitter**: [@rarecube](https://twitter.com/rarecube)
-
-### Built For
-- **Solana Colosseum Hackathon** - Mobile Track
-- **Solana Seeker** - Optimized for mobile Web3
-
----
-
-## 🏗️ Building for Production
-
-### iOS
+**iOS**
 ```bash
 flutter build ios --release
-# Open in Xcode for App Store submission
 open ios/Runner.xcworkspace
+# Use Xcode to archive and submit to App Store
 ```
 
-### Android
+**Android**
 ```bash
-# APK for testing
+# APK for direct distribution
 flutter build apk --release
 
-# App Bundle for Play Store
+# App Bundle for Google Play
 flutter build appbundle --release
 ```
 
-### Web
+**Web**
 ```bash
 flutter build web --release
-# Deploy the build/web directory to your hosting
+# Deploy build/web directory to hosting provider
 ```
 
 ---
 
-## 📜 License
+## Implementation Status
 
-MIT License - see [LICENSE](LICENSE) for details
+### Completed Features
+
+**Core Infrastructure**
+- Multi-platform Flutter setup (iOS, Android, Web, macOS, Windows, Linux)
+- Dark theme with accessibility compliance
+- Riverpod dependency injection and state management
+- go_router navigation with deep linking support
+
+**Solana Integration**
+- SolanaWalletService with full wallet lifecycle
+- Connect/disconnect functionality
+- Transaction and message signing capabilities
+- Riverpod providers for reactive state
+- SolanaWalletButton reusable UI component
+
+**User Interface**
+- 3D CubeAvatar component (3 size variants)
+- LoginScreen with Twitter OAuth and Solana wallet buttons
+- HomeScreen with responsive user grid (2-4 columns)
+- StreamFeedScreen with dual tabs (Streams/Wall)
+- ProfileScreen with follow system
+- BottomNav with 5-tab navigation and badge support
+
+**Data Layer**
+- User and StreamCard models aligned with Convex schema
+- UserRepository for CRUD operations
+- ConvexClient for API communication
+- Support for token attachments and social links
+
+### Roadmap
+
+**Phase 2 - Post-Hackathon**
+- NFT minting for creator cards
+- Token-gated content access
+- SPL token integration for tips and payments
+- On-chain social graph with Solana accounts
+
+**Phase 3 - Future Vision**
+- Live streaming with Solana micropayments
+- Creator DAOs for governance
+- Cross-chain bridges (Solana ↔ EVM)
+- AR features for Solana Saga device
 
 ---
 
-## 🙏 Acknowledgments
+## Design Philosophy
 
-- **Solana Foundation** for the Mobile Wallet Adapter SDK
-- **Flutter Team** for the amazing cross-platform framework
-- **Convex** for the real-time backend infrastructure
-- **RareCube Community** for feedback and support
+### Mobile-First Principles
+
+**Performance**
+- 60 FPS animations with Flutter's Skia rendering
+- Lazy loading and pagination for large lists
+- Image caching with automatic memory management
+- Minimal bundle size through tree shaking
+
+**User Experience**
+- Dark theme optimized for OLED power savings
+- Smooth transitions and micro-interactions
+- Offline capability with cached data
+- Progressive disclosure of complex features
+
+**Accessibility**
+- WCAG AA contrast ratios (4.5:1 minimum)
+- Semantic screen reader labels
+- Large tap targets (minimum 44x44 dp)
+- Keyboard navigation support
+
+### Brand Identity
+
+**Color System**
+- Primary: `#22C55E` (vibrant green representing growth)
+- Background: `#000000` (pure black for OLED)
+- Surface: `#0A0A0A` (subtle depth layers)
+- Text Primary: `#FFFFFF`
+- Text Secondary: `#FFFFFF` at 70% opacity
+
+**Typography**
+- Headings: Poppins (Bold, Semibold)
+- Body: SF Pro (Regular, Medium)
+- Labels: SF Pro (Medium, Semibold)
 
 ---
 
-## 📊 Project Stats
+## Contributing
 
-- **Lines of Code**: ~5,000+
-- **Files**: 25+ Dart files
+### Development Setup
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Code Standards
+
+- Follow Flutter style guide and lint rules
+- Write unit tests for business logic
+- Document public APIs with DartDoc comments
+- Keep functions focused and under 50 lines
+- Use meaningful variable names (no abbreviations)
+
+---
+
+## Team & Contact
+
+**RARE□TV Project**
+- Website: [rarecube.tv](https://rarecube.tv)
+- GitHub: [rarecubetv/cube_colosseum](https://github.com/rarecubetv/cube_colosseum)
+- Twitter: [@rarecube](https://twitter.com/rarecube)
+
+**Built For**
+- Solana Colosseum Hackathon - Mobile Track
+- Solana Seeker device optimization
+- Mobile Web3 ecosystem advancement
+
+---
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details
+
+---
+
+## Acknowledgments
+
+- **Solana Foundation** for Mobile Wallet Adapter SDK and developer resources
+- **Flutter Team** for the cross-platform framework and comprehensive documentation
+- **Convex** for real-time backend infrastructure with zero-config deployment
+- **RARE□TV Community** for testing feedback and feature requests
+
+---
+
+## Project Statistics
+
+- **Lines of Code**: 5,000+ Dart
+- **Files**: 25+ source files
 - **Platforms Supported**: 6 (iOS, Android, Web, macOS, Windows, Linux)
-- **Dependencies**: 20+ packages
-- **Development Time**: Hackathon sprint
+- **Dependencies**: 20+ carefully selected packages
+- **Development Time**: Hackathon sprint (14 days)
+- **Flutter Version**: 3.8.1
+- **Solana Wallet Adapter**: 0.1.5
 
 ---
 
 <div align="center">
 
-**Built with ❤️ for Solana Colosseum Hackathon**
+**Built for Solana Colosseum Hackathon**
 
-**⭐ Star this repo if you find it helpful!**
+[Report Bug](https://github.com/rarecubetv/cube_colosseum/issues) • [Request Feature](https://github.com/rarecubetv/cube_colosseum/issues)
 
-[Report Bug](https://github.com/yourusername/rarecube_flutter/issues) • [Request Feature](https://github.com/yourusername/rarecube_flutter/issues)
-
----
-
-**Last Updated:** 2025-10-30
-**Version:** 1.0.0 (Hackathon Submission)
-**Flutter Version:** 3.8.1
-**Solana Wallet Adapter:** 0.1.5
+Last Updated: 2025-10-30
+Version: 1.0.0 (Hackathon Submission)
 
 </div>
