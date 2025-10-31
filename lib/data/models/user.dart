@@ -21,6 +21,12 @@ class User {
   final String? wallet;
   final String? chain;
 
+  // Auth Info (for Solana/other wallet auth)
+  final String? authMethod; // 'oauth' | 'wallet'
+  final String? authProvider; // 'google' | 'github' | 'solana' etc
+  final String? walletAddress;
+  final String? walletChain;
+
   // Generated GIF
   final String? gifUrl; // Legacy field
   final String? gifStorageId; // Convex file storage ID
@@ -49,6 +55,10 @@ class User {
     required this.accentColor,
     this.wallet,
     this.chain,
+    this.authMethod,
+    this.authProvider,
+    this.walletAddress,
+    this.walletChain,
     this.gifUrl,
     this.gifStorageId,
     this.profileHash,
@@ -70,9 +80,9 @@ class User {
 
     return User(
       id: json['_id'] as String,
-      twitterId: json['twitterId'] as String,
-      username: json['username'] as String,
-      name: json['name'] as String,
+      twitterId: json['twitterId'] as String? ?? '',
+      username: json['username'] as String? ?? 'user',
+      name: json['name'] as String? ?? 'Anonymous',
       avatar: json['avatar'] as String?,
       avatarUrl: json['avatarUrl'] as String?,
       avatarStorageId: json['avatarStorageId'] as String?,
@@ -83,6 +93,10 @@ class User {
       accentColor: json['accentColor'] as String? ?? '#22c55e',
       wallet: json['wallet'] as String?,
       chain: json['chain'] as String?,
+      authMethod: json['authMethod'] as String?,
+      authProvider: json['authProvider'] as String?,
+      walletAddress: json['walletAddress'] as String?,
+      walletChain: json['walletChain'] as String?,
       gifUrl: json['gifUrl'] as String?,
       gifStorageId: json['gifStorageId'] as String?,
       profileHash: json['profileHash'] as String?,
@@ -110,6 +124,10 @@ class User {
       'accentColor': accentColor,
       if (wallet != null) 'wallet': wallet,
       if (chain != null) 'chain': chain,
+      if (authMethod != null) 'authMethod': authMethod,
+      if (authProvider != null) 'authProvider': authProvider,
+      if (walletAddress != null) 'walletAddress': walletAddress,
+      if (walletChain != null) 'walletChain': walletChain,
       if (gifUrl != null) 'gifUrl': gifUrl,
       if (gifStorageId != null) 'gifStorageId': gifStorageId,
       if (profileHash != null) 'profileHash': profileHash,
@@ -136,6 +154,10 @@ class User {
     String? accentColor,
     String? wallet,
     String? chain,
+    String? authMethod,
+    String? authProvider,
+    String? walletAddress,
+    String? walletChain,
     String? gifUrl,
     String? gifStorageId,
     String? profileHash,
@@ -159,6 +181,10 @@ class User {
       accentColor: accentColor ?? this.accentColor,
       wallet: wallet ?? this.wallet,
       chain: chain ?? this.chain,
+      authMethod: authMethod ?? this.authMethod,
+      authProvider: authProvider ?? this.authProvider,
+      walletAddress: walletAddress ?? this.walletAddress,
+      walletChain: walletChain ?? this.walletChain,
       gifUrl: gifUrl ?? this.gifUrl,
       gifStorageId: gifStorageId ?? this.gifStorageId,
       profileHash: profileHash ?? this.profileHash,

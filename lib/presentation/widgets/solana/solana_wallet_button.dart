@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../providers/solana_provider.dart';
 import '../../providers/user_provider.dart';
+import '../../providers/auth_provider.dart';
+import '../../../data/models/user.dart';
 
 /// A button widget for connecting to Solana wallets
 class SolanaWalletButton extends ConsumerWidget {
@@ -47,6 +49,13 @@ class SolanaWalletButton extends ConsumerWidget {
               print('✅ Solana auth successful: ${authResult['isNewUser'] ? 'New user created' : 'Existing user'}');
               print('   User ID: ${authResult['userId']}');
               print('   Username: ${authResult['user']['username']}');
+
+              // Store user in auth state
+              final user = User.fromJson(authResult['user'] as Map<String, dynamic>);
+              ref.read(authProvider.notifier).setUser(
+                user,
+                walletAddress: walletService.publicKey,
+              );
 
               // Navigate to home screen
               if (context.mounted) {

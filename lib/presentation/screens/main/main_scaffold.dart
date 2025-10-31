@@ -5,6 +5,7 @@ import '../../../features/streaming/providers/streamer_provider.dart';
 import '../../../features/streaming/screens/cube_stream_screen.dart';
 import '../home/home_screen.dart';
 import '../stream/stream_feed_screen.dart';
+import '../profile/profile_screen.dart';
 
 /// Main scaffold with persistent tab navigation
 /// Follows Apple HIG - maintains state across tab switches
@@ -44,7 +45,7 @@ class _MainScaffoldState extends State<MainScaffold> {
             StreamFeedScreen(embedded: true),
             CubeStreamScreen(), // Live streaming screen
             _NotificationsScreen(),
-            _ProfileScreen(),
+            ProfileScreen(),
           ],
         ),
         bottomNavigationBar: _buildBottomNav(),
