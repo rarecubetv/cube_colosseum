@@ -5,6 +5,7 @@ import '../presentation/screens/main/main_scaffold.dart';
 import '../presentation/screens/profile/user_profile_screen.dart';
 import '../presentation/screens/stream/stream_create_screen.dart';
 import '../presentation/screens/stream/stream_detail_screen.dart';
+import '../presentation/screens/debug/cube_debug_screen.dart';
 
 /// App router using go_router for navigation
 /// Provides declarative routing matching the web app's structure
@@ -60,9 +61,15 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
       ),
 
+      // Cube debug page (/cube)
+      GoRoute(
+        path: '/cube',
+        name: 'cube-debug',
+        builder: (context, state) => const CubeDebugScreen(),
+      ),
+
       // TODO: Add more routes
       // - /onboarding - Onboarding screen
-      // - /cube - Cube page
       // - /notifications - Notifications
       // - /preview/:username - Preview/card customization
     ],

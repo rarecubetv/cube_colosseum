@@ -6,7 +6,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../widgets/common/bottom_nav.dart';
 import '../../widgets/cube/cube_avatar.dart';
 import '../../providers/stream_provider.dart';
-import '../../../data/datasources/convex_client.dart';
+import '../../providers/convex_provider.dart';
 
 /// Provider to get file URL from storage ID
 final fileUrlProvider = FutureProvider.family<String?, String>((ref, storageId) async {
@@ -140,65 +140,97 @@ class _StreamsTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final streamCardsAsync = ref.watch(allStreamCardsProvider);
 
-    return streamCardsAsync.when(
-      data: (streamCards) {
-        if (streamCards.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return RefreshIndicator(
+      onRefresh: () async {
+        ref.invalidate(allStreamCardsProvider);
+        await ref.read(allStreamCardsProvider.future);
+      },
+      color: AppColors.primary,
+      child: streamCardsAsync.when(
+        data: (streamCards) {
+          if (streamCards.isEmpty) {
+            return ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
               children: [
-                Text(
-                  '🟩',
-                  style: TextStyle(
-                    fontSize: 64,
-                    color: AppColors.textTertiary.withOpacity(0.4),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '🟩',
+                          style: TextStyle(
+                            fontSize: 64,
+                            color: AppColors.textTertiary.withOpacity(0.4),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'No streams yet',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Be the first to create a stream card!',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                const Text(
-                  'No streams yet',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                  ),
+              ],
+            );
+          }
+
+          return ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(12),
+            itemCount: streamCards.length,
+            itemBuilder: (context, index) {
+              final card = streamCards[index];
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _StreamPreviewCard(card: card),
+              );
+            },
+          );
+        },
+        loading: () => ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  'Be the first to create a stream card!',
+              ),
+            ),
+          ],
+        ),
+        error: (error, stack) => ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: Center(
+                child: Text(
+                  'Error loading streams',
                   style: TextStyle(
                     fontSize: 15,
                     color: AppColors.textSecondary,
                   ),
                 ),
-              ],
+              ),
             ),
-          );
-        }
-
-        return ListView.builder(
-          padding: const EdgeInsets.all(12),
-          itemCount: streamCards.length,
-          itemBuilder: (context, index) {
-            final card = streamCards[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: _StreamPreviewCard(card: card),
-            );
-          },
-        );
-      },
-      loading: () => const Center(
-        child: CircularProgressIndicator(
-          color: AppColors.primary,
-        ),
-      ),
-      error: (error, stack) => Center(
-        child: Text(
-          'Error loading streams',
-          style: TextStyle(
-            fontSize: 15,
-            color: AppColors.textSecondary,
-          ),
+          ],
         ),
       ),
     );
@@ -413,62 +445,94 @@ class _WallTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mediaAsync = ref.watch(allStreamMediaProvider);
 
-    return mediaAsync.when(
-      data: (mediaItems) {
-        if (mediaItems.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return RefreshIndicator(
+      onRefresh: () async {
+        ref.invalidate(allStreamMediaProvider);
+        await ref.read(allStreamMediaProvider.future);
+      },
+      color: AppColors.primary,
+      child: mediaAsync.when(
+        data: (mediaItems) {
+          if (mediaItems.isEmpty) {
+            return ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
               children: [
-                Text(
-                  '📸',
-                  style: TextStyle(
-                    fontSize: 64,
-                    color: AppColors.textTertiary.withOpacity(0.4),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '📸',
+                          style: TextStyle(
+                            fontSize: 64,
+                            color: AppColors.textTertiary.withOpacity(0.4),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'No media yet',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Media from stream galleries will appear here',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                const Text(
-                  'No media yet',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                  ),
+              ],
+            );
+          }
+
+          return ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            itemCount: mediaItems.length,
+            itemBuilder: (context, index) {
+              final media = mediaItems[index];
+              return _WallMediaCard(media: media);
+            },
+          );
+        },
+        loading: () => ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  'Media from stream galleries will appear here',
+              ),
+            ),
+          ],
+        ),
+        error: (error, stack) => ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: Center(
+                child: Text(
+                  'Error loading media',
                   style: TextStyle(
                     fontSize: 15,
                     color: AppColors.textSecondary,
                   ),
                 ),
-              ],
+              ),
             ),
-          );
-        }
-
-        return ListView.builder(
-          padding: EdgeInsets.zero,
-          itemCount: mediaItems.length,
-          itemBuilder: (context, index) {
-            final media = mediaItems[index];
-            return _WallMediaCard(media: media);
-          },
-        );
-      },
-      loading: () => const Center(
-        child: CircularProgressIndicator(
-          color: AppColors.primary,
-        ),
-      ),
-      error: (error, stack) => Center(
-        child: Text(
-          'Error loading media',
-          style: TextStyle(
-            fontSize: 15,
-            color: AppColors.textSecondary,
-          ),
+          ],
         ),
       ),
     );
@@ -517,7 +581,7 @@ class _WallMediaCard extends StatelessWidget {
                 child: Row(
                   children: [
                     // Small cube avatar
-                    const CubeAvatarWall(),
+                    const CubeAvatarTiny(),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
