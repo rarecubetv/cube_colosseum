@@ -15,8 +15,8 @@ class SolanaWalletService {
   SolanaWalletService() {
     _adapter = SolanaWalletAdapter(
       AppIdentity(
-        uri: Uri(scheme: 'https', host: 'rarecube.tv'),
-        icon: Uri(scheme: 'https', host: 'rarecube.tv', path: '/favicon.ico'),
+        uri: Uri.https('rarecube.tv'),
+        icon: Uri.parse('favicon.ico'), // Relative to uri
         name: 'RareCube',
       ),
       cluster: Cluster.devnet,
@@ -91,7 +91,10 @@ class SolanaWalletService {
     }
 
     try {
-      return await _adapter.signMessages([message]);
+      return await _adapter.signMessages(
+        [message],
+        addresses: [_currentAccount!.address],
+      );
     } catch (e) {
       if (kDebugMode) {
         print('Solana sign message error: $e');

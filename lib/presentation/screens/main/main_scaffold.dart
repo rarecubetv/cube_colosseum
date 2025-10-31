@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../features/streaming/providers/streamer_provider.dart';
+import '../../../features/streaming/screens/cube_stream_screen.dart';
 import '../home/home_screen.dart';
 import '../stream/stream_feed_screen.dart';
+import '../profile/profile_screen.dart';
 
 /// Main scaffold with persistent tab navigation
 /// Follows Apple HIG - maintains state across tab switches
@@ -20,15 +24,6 @@ class MainScaffold extends StatefulWidget {
 class _MainScaffoldState extends State<MainScaffold> {
   late int _currentIndex;
 
-  // Keep state of each tab by using IndexedStack
-  final List<Widget> _screens = const [
-    HomeScreen(embedded: true),
-    StreamFeedScreen(embedded: true),
-    _CubeScreen(),
-    _NotificationsScreen(),
-    _ProfileScreen(),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -37,12 +32,24 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
+    // Wrap with Provider for streaming functionality
+    print('🔵 MainScaffold building - currentIndex: $_currentIndex');
+    return ChangeNotifierProvider(
+      create: (_) => StreamerProvider(),
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: IndexedStack(
+          index: _currentIndex,
+          children: const [
+            HomeScreen(embedded: true),
+            StreamFeedScreen(embedded: true),
+            CubeStreamScreen(), // Live streaming screen
+            _NotificationsScreen(),
+            ProfileScreen(),
+          ],
+        ),
+        bottomNavigationBar: _buildBottomNav(),
       ),
-      bottomNavigationBar: _buildBottomNav(),
     );
   }
 
@@ -77,8 +84,8 @@ class _MainScaffoldState extends State<MainScaffold> {
                 index: 1,
               ),
               _buildNavItem(
-                icon: Icons.view_in_ar_outlined,
-                activeIcon: Icons.view_in_ar,
+                icon: Icons.videocam_outlined,
+                activeIcon: Icons.videocam,
                 label: 'Cube',
                 index: 2,
               ),
@@ -144,56 +151,6 @@ class _MainScaffoldState extends State<MainScaffold> {
 }
 
 /// Placeholder screens for tabs not yet implemented
-class _CubeScreen extends StatelessWidget {
-  const _CubeScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.background,
-                border: Border(
-                  bottom: BorderSide(
-                    color: AppColors.borderPrimary,
-                    width: 0.5,
-                  ),
-                ),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                child: Text(
-                  'Cube',
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            const Expanded(
-              child: Center(
-                child: Text(
-                  'Cube tab - Coming soon',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _NotificationsScreen extends StatelessWidget {
   const _NotificationsScreen();
 
